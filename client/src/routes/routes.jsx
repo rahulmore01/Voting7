@@ -2,10 +2,10 @@ import {createBrowserRouter} from "react-router-dom";
 import Wallet from "../pages/Wallet/Wallet";
 import CandidateRegistration from "../pages/Candidate/CandidateRegistration";
 import VoterRegistration from "../pages/Voter/VoterRegistration";
-import DispalyCandidate from "../pages/Candidate/DisplayCandidate";
-import DispalyVoter from "../pages/Voter/DisplayVoter";
 import NavigationBar from "../components/NavigationBar/NavigationBar";
 import ElectionCommision from "../pages/ElectionCommision/ElectionCommision";
+import CandidatesList from "../pages/Candidate/CandidateList";
+import VoterList from "../pages/Voter/VoterList";
 
 export const routes = createBrowserRouter([
     {path:"/",element:<Wallet/>},
@@ -27,14 +27,14 @@ export const routes = createBrowserRouter([
     {path:"/candidate-list",element:(
             <div>
                 <NavigationBar/>
-                <DispalyCandidate/>
+                <CandidatesList/>
             </div>
     
     )},
     {path:"/voter-list",element:(
             <div>
                 <NavigationBar/>
-                <DispalyVoter/>
+                <VoterList/>
             </div>
     )},
     {path:"/election-commision",element:(

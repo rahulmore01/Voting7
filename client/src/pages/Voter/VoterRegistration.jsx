@@ -1,10 +1,11 @@
-import { useRef } from "react";
-// import { Web3Context } from "../../context/web3Context";
+import { useRef,useState} from "react";
+import axios from "axios";
 import { useWeb3Context } from "../../context/useWeb3Context";
 
 const VoterRegistration = () => {
-  //const { contractInstance } = useContext(Web3Context);
-  const { contractInstance } = useWeb3Context()
+  const {web3State} = useWeb3Context();
+  const {contractInstance,selectedAccount}=web3State; //const { contractInstance } = useContext(Web3Context);
+  const [file,setFile]=useState("")
   const nameRef = useRef();
   const ageRef = useRef();
   const genderRef = useRef();
@@ -16,7 +17,13 @@ const VoterRegistration = () => {
     await contractInstance.voterRegister(name, age, gender);
     console.log("Voter Registration Successful!");
   };
-
+  
+  const handleUploadImage = async()=>{
+    const formData = new FormData()
+    formData.append("file",file)
+    const response = await axios.post(`http://localhost:3000/api/postVoterImage?accountAddress=${selectedAccount}`,formData)
+    console.log(response)
+ }
   return (
     <>
       <form onSubmit={handleVoterRegistration}>
@@ -31,6 +38,9 @@ const VoterRegistration = () => {
         <br />
         <button type="submit">Voter Register</button>
       </form>
+      <br></br>
+      <input type="file" onChange={(e)=>setFile(e.target.files[0])}></input>
+      <button onClick={handleUploadImage}>Upload Image</button>
     </>
   );
 };
