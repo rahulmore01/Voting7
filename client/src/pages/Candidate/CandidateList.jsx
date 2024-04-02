@@ -1,11 +1,18 @@
 import { useState,useEffect } from "react";
 import { useWeb3Context } from "../../context/useWeb3Context";
+import { useNavigate } from "react-router-dom";
 import "./CandidateList.css"
 const CandidatesList = () => {
     const {web3State} = useWeb3Context();
     const {contractInstance}=web3State; 
     const [candidateList,setCandidateList]=useState([])
-
+    const token = localStorage.getItem("token")
+    const navigateTo = useNavigate()
+    useEffect(()=>{
+      if(!token){
+        navigateTo("/")
+      }
+    },[navigateTo,token])
     useEffect(()=>{
       const displayCandidatesList = async()=>{
         try {

@@ -1,4 +1,5 @@
-import { useRef,useState} from "react";
+import { useRef,useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useWeb3Context } from "../../context/useWeb3Context";
 
@@ -8,7 +9,17 @@ const VoterRegistration = () => {
   const [file,setFile]=useState("")
   const nameRef = useRef();
   const ageRef = useRef();
-  const genderRef = useRef();
+  const maleRef = useRef();
+  const femaleRef = useRef();
+  const otherRef = useRef();
+
+  const token = localStorage.getItem("token")
+  const navigateTo = useNavigate()
+  useEffect(()=>{
+    if(!token){
+      navigateTo("/")
+    }
+  },[navigateTo,token])
   const handleVoterRegistration = async (e) => {
     try {
       e.preventDefault();
@@ -24,18 +35,21 @@ const VoterRegistration = () => {
       await axios.post(`http://localhost:3000/api/postVoterImage`,formData,config)
       const name = nameRef.current.value;
       const age = ageRef.current.value;
-      const gender = genderRef.current.value;
+      let gender;
+            if(maleRef.current.checked){
+               gender=0
+            }else if(femaleRef.current.checked){
+               gender=1
+            }else{
+               gender=2
+            }
       if(name==="" || gender==="" || age===""){
         throw new Error("Input fields cannot be empty!!!")
       }
       const tx = await contractInstance.voterRegister(name, age, gender);
-      const receipt = await tx.wait();
-      
-      console.log(receipt);   
+      const receipt = await tx.wait();     
       nameRef.current.value="";
-      ageRef.current.value="";
-      genderRef.current.value="";
- 
+      ageRef.current.value=""
     } catch (error) {
       console.error(error.message)
     }
@@ -50,8 +64,19 @@ const VoterRegistration = () => {
         <label>Voter Age:</label>
         <input type="text" placeholder="Candidate Age" ref={ageRef} />
 
-        <label>Voter Gender:</label>
-        <input type="text" placeholder="Candidate Gender" ref={genderRef} />
+        <label>Gender</label>
+            <div>
+                <input type="radio" id="male" name="gender" value="male" ref={maleRef} />
+                <label htmlFor="male">Male</label>
+            </div>
+            <div>
+                <input type="radio" id="female" name="gender" value="female" ref={femaleRef} />
+                <label htmlFor="female">Female</label>
+            </div>
+            <div>
+                <input type="radio" id="other" name="gender" value="other" ref={otherRef} />
+                <label htmlFor="other">Other</label>
+            </div>
         <br />
         <button type="submit">Voter Register</button>
       </form>

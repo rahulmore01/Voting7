@@ -8,13 +8,14 @@ const Web3StateProvider = ({children}) => {
     const [web3State,setWeb3State]=useState({
         contractInstance:null,
         chainId:null,
-        selectedAccount:null
+        selectedAccount:null,
+        electionCommissionStatus:null
     })
     const handleWallet= async()=>{
       try {
-        const {contractInstance,chainId,selectedAccount}= await getWeb3State();
+        const {contractInstance,chainId,selectedAccount,electionCommissionStatus}= await getWeb3State();
         console.log("Connected")
-        setWeb3State({contractInstance,chainId,selectedAccount})
+        setWeb3State({contractInstance,chainId,selectedAccount,electionCommissionStatus})
       } catch (error) {
         console.error("Wallet connection failed",error.message)
       }

@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useWeb3Context } from "../../context/useWeb3Context";
 import "./NavigationBar.css"; // Import the CSS file
 
 const NavigationBar = () => {
+  const {web3State}=useWeb3Context()
+  const {electionCommissionStatus}=web3State;
   return (
     <header>
       <nav className="navbar">
@@ -21,16 +24,16 @@ const NavigationBar = () => {
               Voter Registration
             </Link>
           </li>
-          <li>
+          {electionCommissionStatus?(<li>
             <Link to="/voter-list">
               Voter List
             </Link>
-          </li>
-          <li>
+          </li>):(<div></div>)}
+          {electionCommissionStatus?(<li>
             <Link to="/election-commision">
               Election Commission
             </Link>
-          </li>
+          </li>):(<div></div>)}
         </ul>  
       </nav>
     </header>

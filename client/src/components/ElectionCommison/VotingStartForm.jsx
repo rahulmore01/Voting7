@@ -3,24 +3,39 @@ import { useRef } from "react";
 const VotingStartForm = () => {
     const {web3State}=useWeb3Context();
     const {contractInstance}=web3State;
-    const startRef = useRef();
-    const endRef=useRef()
+    const startTimeRef = useRef();
+    const endTimeRef=useRef()
+
+    const timeInSeconds = (time)=>{
+      const date = new Date(time)
+      return Math.floor(date.getTime()/1000)
+    }
     const handleVotingTime = async(e)=>{
       e.preventDefault();
-      const startTime = startRef.current.value;
-      const endTime = endRef.current.value;
-      await contractInstance.voteTime(startTime,endTime)
-      alert("Voting Started")
+      const startTime = startTimeRef.current.value;
+      const endTime = endTimeRef.current.value;
+      
+      const startTimeSec = timeInSeconds(startTime)
+      const endTimeSec = timeInSeconds(endTime)
+      console.log(startTimeSec,endTimeSec)
+      // await contractInstance.voteTime(startTime,endTime)
+      // alert("Voting Started")
     }
     return (
     <>
-      <form onSubmit={handleVotingTime}>
-        <label htmlFor="start" >Start Time</label>
-        <input type="text" ref={startRef}></input>
-        <label htmlFor="end">End Time</label>
-        <input type="text" ref={endRef}></input>
-        <button>Voting Start</button>
-      </form>
+      <div>
+           <form className="election-form" onSubmit={handleVotingTime}>
+            <label htmlFor="start">Start Time</label>
+            <input type="datetime-local" id="start" ref={startTimeRef}required />
+
+            <label htmlFor="end">End Time</label>
+            <input type="datetime-local" id="end" ref={endTimeRef} required />
+
+            <button className="regBtn" type="submit">
+              Voting Start
+            </button>
+          </form>
+        </div>
     </>);
 }
  
