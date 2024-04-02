@@ -8,7 +8,7 @@ import "./CandidateRegistration.css"
 const CandidateRegistration = () => {
     //const {contractInstance} = useContext(Web3Context)
     const {web3State} = useWeb3Context();
-    const {contractInstance,selectedAccount}=web3State;
+    const {contractInstance}=web3State;
     const [file,setFile]=useState("")
     const nameRef = useRef();
     const genderRef = useRef();
@@ -16,20 +16,39 @@ const CandidateRegistration = () => {
     const partyRef = useRef();
 
     const handleCandidateRegistration = async(e)=>{
-        e.preventDefault()
-        const name = nameRef.current.value;
-        const gender = genderRef.current.value;
-        const age = ageRef.current.value;
-        const party = partyRef.current.value;
-        await contractInstance.candidateRegister(name, party,age,gender);
-        console.log("Transaction Successful!")
+        try {
+            e.preventDefault()
+            const formData = new FormData()
+            formData.append("file",file)
+
+            const token = localStorage.getItem("token")
+            const config ={
+                headers:{
+                    'x-access-token':token
+                } 
+            }
+            await axios.post(`http://localhost:3000/api/postCandidateImage`,formData,config)
+            
+            const name = nameRef.current.value;
+            const gender = genderRef.current.value;
+            const age = ageRef.current.value;
+            const party = partyRef.current.value;
+
+            if(name==="" || gender==="" || age==="" || party===""){
+                throw new Error("Input fields cannot be empty!!!")
+            }
+            const tx = await contractInstance.candidateRegister(name, party,age,gender);
+            const receipt = await tx.wait();
+            console.log(receipt)
+            nameRef.current.value="";
+            ageRef.current.value="";
+            genderRef.current.value=""; 
+            partyRef.current.value=""     
+        } catch (error) {
+            console.error(error.message)
+        }
     }
-    const handleUploadImage = async()=>{
-       const formData = new FormData()
-       formData.append("file",file)
-       const response = await axios.post(`http://localhost:3000/api/postCandidateImage?accountAddress=${selectedAccount}`,formData)
-       console.log(response)
-    }
+
     return ( <div>
         <form onSubmit={handleCandidateRegistration}>
             <label>Candidate Name:</label>
@@ -45,7 +64,6 @@ const CandidateRegistration = () => {
         </form>
         <br></br>
         <input type="file" onChange={(e)=>setFile(e.target.files[0])}></input>
-        <button onClick={handleUploadImage}>Upload Image</button>
     </div>);
 }
  
