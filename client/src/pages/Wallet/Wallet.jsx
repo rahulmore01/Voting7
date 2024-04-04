@@ -9,7 +9,7 @@ const Wallet = () => {
 
     useEffect(()=>{
         if(selectedAccount){
-            navigateTo("/candidate-registration")
+            navigateTo("/voter-profile")
         }
     },[selectedAccount,navigateTo])
 

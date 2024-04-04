@@ -32,9 +32,9 @@ export const getWeb3State = async()=>{
       electionCommissionStatus=res.data.electionCommissionStatus
       localStorage.setItem("token",res.data.token)
 
-      const contractAddress = "0x37E12969960C760E9538b77c3e9D8693A92537a8";
+      const contractAddress = "0xDF59f63108f0Bcf4a9706fA3EC2FeBeeF32851AA";
       contractInstance = new ethers.Contract(contractAddress,abi,signer);
-      return {contractInstance,chainId,selectedAccount,electionCommissionStatus};
+      return {contractInstance,chainId,selectedAccount,electionCommissionStatus,provider,signer};
   } catch (error) {
     console.error("Not able to get the web3states",error.message);
     throw error;

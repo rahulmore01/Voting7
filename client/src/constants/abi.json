@@ -2,34 +2,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_party",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_age",
-				"type": "uint256"
-			},
-			{
-				"internalType": "enum Vote.Gender",
-				"name": "_gender",
-				"type": "uint8"
-			}
-		],
-		"name": "candidateRegister",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "_gldToken",
 				"type": "address"
@@ -50,13 +22,6 @@
 		],
 		"name": "ElectionResultAnnounced",
 		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "emergency",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -127,31 +92,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "result",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_voterId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "vote",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -169,47 +109,6 @@
 		],
 		"name": "VoteCasted",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_age",
-				"type": "uint256"
-			},
-			{
-				"internalType": "enum Vote.Gender",
-				"name": "_gender",
-				"type": "uint8"
-			}
-		],
-		"name": "voterRegister",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_startTime",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_endTime",
-				"type": "uint256"
-			}
-		],
-		"name": "voteTime",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -245,7 +144,20 @@
 	},
 	{
 		"inputs": [],
-		"name": "candidateList",
+		"name": "emergency",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_voterId",
+				"type": "uint256"
+			}
+		],
+		"name": "getVoterProfile",
 		"outputs": [
 			{
 				"components": [
@@ -255,13 +167,13 @@
 						"type": "string"
 					},
 					{
-						"internalType": "string",
-						"name": "party",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "age",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
-						"name": "age",
+						"name": "voterId",
 						"type": "uint256"
 					},
 					{
@@ -271,23 +183,18 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "candidateId",
+						"name": "voteCandidateId",
 						"type": "uint256"
 					},
 					{
 						"internalType": "address",
-						"name": "candidateAddress",
+						"name": "voterAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "votes",
-						"type": "uint256"
 					}
 				],
-				"internalType": "struct Vote.Candidate[]",
+				"internalType": "struct Vote.Voter",
 				"name": "",
-				"type": "tuple[]"
+				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",
@@ -304,6 +211,49 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "result",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_voterId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			}
+		],
+		"name": "voteTime",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -349,6 +299,29 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_age",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum Vote.Gender",
+				"name": "_gender",
+				"type": "uint8"
+			}
+		],
+		"name": "voterRegister",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

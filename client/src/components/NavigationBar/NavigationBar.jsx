@@ -4,7 +4,7 @@ import "./NavigationBar.css"; // Import the CSS file
 
 const NavigationBar = () => {
   const {web3State}=useWeb3Context()
-  const {electionCommissionStatus}=web3State;
+  const {electionCommissionStatus,selectedAccount}=web3State;
   return (
     <header>
       <nav className="navbar">
@@ -34,6 +34,16 @@ const NavigationBar = () => {
               Election Commission
             </Link>
           </li>):(<div></div>)}
+          <li>
+            <Link to="/token-exchange">
+              Token Exchange
+            </Link>
+          </li>
+          <li>
+            <Link to="/voter-profile">
+              Voter Profile
+            </Link>
+          </li>
         </ul>  
       </nav>
     </header>
