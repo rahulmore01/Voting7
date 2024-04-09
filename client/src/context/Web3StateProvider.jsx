@@ -4,7 +4,7 @@ import { handleAccountChange } from "../utils/handleAccountChange";
 import { handleChainChange } from "../utils/handleChainChange";
 import { Web3Context } from "./web3Context";
 const Web3StateProvider = ({children}) => {
-    console.log("Web3StateProvider")
+
     const [web3State,setWeb3State]=useState({
         contractInstance:null,
         chainId:null,
@@ -16,7 +16,6 @@ const Web3StateProvider = ({children}) => {
     const handleWallet= async()=>{
       try {
         const {contractInstance,chainId,selectedAccount,electionCommissionStatus,provider,signer}= await getWeb3State();
-        console.log("Connected")
         setWeb3State({contractInstance,chainId,selectedAccount,electionCommissionStatus,provider,signer})
       } catch (error) {
         console.error("Wallet connection failed",error.message)

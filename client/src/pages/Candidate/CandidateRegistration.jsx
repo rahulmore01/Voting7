@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWeb3Context } from "../../context/useWeb3Context";
-import axios from "axios"
-
+import { uploadFile } from "../../utils/candidateImageUpload";
+import {toast} from "react-hot-toast"
 import "./CandidateRegistration.css"
 const CandidateRegistration = () => {
     //const {contractInstance} = useContext(Web3Context)
@@ -28,17 +28,6 @@ const CandidateRegistration = () => {
     const handleCandidateRegistration = async(e)=>{
         try {
             e.preventDefault()
-            const formData = new FormData()
-            formData.append("file",file)
-
-            
-            const config ={
-                headers:{
-                    'x-access-token':token
-                } 
-            }
-            await axios.post(`http://localhost:3000/api/postCandidateImage`,formData,config)
-            
             const name = nameRef.current.value;
             const age = ageRef.current.value;
             const party = partyRef.current.value;
@@ -57,10 +46,15 @@ const CandidateRegistration = () => {
             }
             const tx = await contractInstance.candidateRegister(name, party,age,gender);
             const receipt = await tx.wait();
+            if(receipt.status===1){
+               toast.success("Candidate Registration Successful")
+               await uploadFile(file)
+            }
             nameRef.current.value="";
             ageRef.current.value="";
             partyRef.current.value=""     
         } catch (error) {
+            toast.error("Candidate Registration Failed!!!")
             console.error(error.message)
         }
     }
@@ -95,3 +89,20 @@ const CandidateRegistration = () => {
 }
  
 export default CandidateRegistration;
+
+
+    // const uploadFile = async()=>{
+    //     try {
+    //         const formData = new FormData()
+    //         formData.append("file",file)
+    //         const config ={
+    //             headers:{
+    //                 'x-access-token':token
+    //             } 
+    //         }
+    //         await axios.post(`http://localhost:3000/api/postCandidateImage`,formData,config)
+    //     } catch (error) {
+    //         toast.error("Image Uplaod Failed!!!")
+    //     }
+       
+    // }

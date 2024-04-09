@@ -9,6 +9,7 @@ const TokenBalance = ({erc20ContractInstance}) => {
     useEffect(()=>{
         const fetchTokenBalance = async()=>{
             const tokenBalanceWei = await erc20ContractInstance.balanceOf(selectedAccount)
+            console.log(tokenBalanceWei)
             const tokenBalanceEth = ethers.formatEther(tokenBalanceWei)
             setUserTokenBalance(tokenBalanceEth)
         } 

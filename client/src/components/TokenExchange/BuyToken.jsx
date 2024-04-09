@@ -6,7 +6,7 @@ const BuyToken = ({contractInstance}) => {
        e.preventDefault()
        const tokenValueEth = tokenAmountRef.current.value;
        const tokenValueWei = ethers.parseEther(tokenValueEth,18);
-       const tx = await contractInstance.buyGLDToken(tokenValueWei)
+       const tx = await contractInstance.buyGLDToken(tokenValueWei,{ gasLimit: 300000 })
        const reciept = tx.wait()
        console.log("Transaction Successful")
     }

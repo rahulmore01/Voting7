@@ -1,8 +1,8 @@
 import { useRef,useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useWeb3Context } from "../../context/useWeb3Context";
-
+import { uploadFile } from "../../utils/voterImageUpload";
+import {toast} from "react-hot-toast"
 const VoterRegistration = () => {
   const {web3State} = useWeb3Context();
   const {contractInstance}=web3State; //const { contractInstance } = useContext(Web3Context);
@@ -20,19 +20,11 @@ const VoterRegistration = () => {
       navigateTo("/")
     }
   },[navigateTo,token])
-  const handleVoterRegistration = async (e) => {
-    try {
-      e.preventDefault();
-      const formData = new FormData()
-      formData.append("file",file)
-      const token = localStorage.getItem("token")
-      const config ={
-          headers:{
-              'x-access-token':token
-          } 
-      }
 
-      await axios.post(`http://localhost:3000/api/postVoterImage`,formData,config)
+  
+  const handleVoterRegistration = async (e) => {
+     try{
+      e.preventDefault()
       const name = nameRef.current.value;
       const age = ageRef.current.value;
       let gender;
@@ -47,10 +39,22 @@ const VoterRegistration = () => {
         throw new Error("Input fields cannot be empty!!!")
       }
       const tx = await contractInstance.voterRegister(name, age, gender);
-      const receipt = await tx.wait();     
+      const receipt = await tx.wait(); 
+      if(receipt.status===1){
+         toast.success("Voter registration succesful")
+         await uploadFile(file) 
+      }      
       nameRef.current.value="";
       ageRef.current.value=""
+
     } catch (error) {
+      if(error.message.includes("Voter Already Registered")){
+         toast.error("Voter Already Registered")
+      }else if(error.message.includes("You are not eligible")){
+         toast.error("You are not eligible to vote")
+      }else{
+         toast.error("Voter Registration Failed")
+      }
       console.error(error.message)
     }
   };
