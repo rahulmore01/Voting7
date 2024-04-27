@@ -33,7 +33,7 @@ export const getWeb3State = async()=>{
       electionCommissionStatus=res.data.electionCommissionStatus
       localStorage.setItem("token",res.data.token)
 
-      const contractAddress = "0x53dd2c305F6dE9Da6Ad6fD49559aC6AbEe6597a9";
+      const contractAddress = "0x0DeA1119DC3B423F13A5e2C85c485B06F1BBf0de";
       contractInstance = new ethers.Contract(contractAddress,abi,signer);
       toast.success("Signed In Successfully!!!")
       return {contractInstance,chainId,selectedAccount,electionCommissionStatus,provider,signer};

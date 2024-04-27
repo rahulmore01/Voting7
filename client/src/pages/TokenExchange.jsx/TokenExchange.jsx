@@ -28,7 +28,6 @@ const TokenExchange = () => {
           const tokenExchangeContractAddress = "0x3e492dd46004fba4f8f8a69fa25154a2bcaf787f";
           const tokenExchangeContractInstance = new ethers.Contract(tokenExchangeContractAddress,tokenExchangeAbi,signer)
           setTokenExchangeContractInstance(tokenExchangeContractInstance)
-          console.log(tokenExchangeContractInstance)
         }
         signer && tokenExchangeInit()
     },[signer])

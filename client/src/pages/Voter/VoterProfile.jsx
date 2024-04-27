@@ -1,28 +1,47 @@
 import { useWeb3Context } from "../../context/useWeb3Context";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {toast} from "react-hot-toast"
 import "./VoterProfile.css";
 
 const VoterProfile = () => {
   const [voterProfile, setVoterProfile] = useState([]);
+  const [voterProfileId, setVoterProfileId] = useState("Not Registered");
   const voterIdRef = useRef();
   const castVoterIdRef = useRef();
   const candidateIdRef = useRef();
   const { web3State } = useWeb3Context();
   const { contractInstance } = web3State;
+  
 
-  const fetchVoterProfile = async (e) => {
-    try {
-        e.preventDefault();
-        const voterId = voterIdRef.current.value;
-        console.log(voterId)
-        const voterProfile = await contractInstance.getVoterProfile(voterId);
-        setVoterProfile(voterProfile);   
+  useEffect(()=>{
+    const fetchVoterProfile = async()=>{
+      try {
+        const voterProfileId = await contractInstance.getVoterId();
+        if(String(voterProfileId)!=="0"){
+          const voterProfile = await contractInstance.getVoterProfile(voterProfileId);
+          setVoterProfile(voterProfile); 
+          setVoterProfileId(voterProfileId);
+        }   
     } catch (error) {
-        toast.error("Error fetching the voter profile!Make sure to input the right voter Id!")
-        console.error("Error fetching the voter profile", error.message)
+        toast.error("Error fetching the voter profile id!")
+        console.error("Error fetching the voter profile id", error.message)
+     }
     }
-  };
+    contractInstance && fetchVoterProfile()
+  },[contractInstance])
+  // const fetchVoterProfile = async (e) => {
+  //   try {
+  //       e.preventDefault();
+  //       const voterId = voterIdRef.current.value;
+  //       console.log(voterId)
+  //       const voterProfile = await contractInstance.getVoterProfile(voterId);
+  //       console.log(voterProfile)
+  //       setVoterProfile(voterProfile);   
+  //   } catch (error) {
+  //       toast.error("Error fetching the voter profile!Make sure to input the right voter Id!")
+  //       console.error("Error fetching the voter profile", error.message)
+  //   }
+  // };
 
   const castVote = async(e) =>{
     try {
@@ -43,7 +62,8 @@ const VoterProfile = () => {
   }
 
   return (
-    <>
+    <> 
+      <p>VoterProfileId:{String(voterProfileId)}</p>
       {voterProfile.length !== 0 && (
         <table className="voter-table">
           <thead>
@@ -59,7 +79,11 @@ const VoterProfile = () => {
             <tr>
               <td>{voterProfile[0]}</td>
               <td>{String(voterProfile[1])}</td>
-              <td>{String(voterProfile[2])}</td>
+              <td>{
+                  String(voterProfile[3])==="0"?("Male"):
+                  (String(voterProfile[2])==="1"?"Female":"Others")
+                 }
+              </td>
               <td>{String(voterProfile[5])}</td>
               <td className="voter-list-table-data">
                 <img
@@ -77,7 +101,7 @@ const VoterProfile = () => {
         </table>
       )}
 
-      <form onSubmit={fetchVoterProfile}>
+      {/* <form onSubmit={fetchVoterProfile}>
         <label>Voter Id:</label>
         <input
           type="text"
@@ -86,7 +110,7 @@ const VoterProfile = () => {
           className="form-input"
         />
         <button type="submit" className="form-button">Get Profile</button>
-      </form>
+      </form> */}
       <form onSubmit={castVote}>
         <label>
           Voter Id:

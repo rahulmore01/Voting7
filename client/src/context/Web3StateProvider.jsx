@@ -23,7 +23,7 @@ const Web3StateProvider = ({children}) => {
       
     }
     useEffect(()=>{
-        window.ethereum.on('accountsChanged',()=>handleAccountChange(setWeb3State))
+        window.ethereum.on('accountsChanged',()=>handleAccountChange(handleWallet))
         window.ethereum.on('chainChanged',()=>handleChainChange(setWeb3State))
         
         return()=>{
