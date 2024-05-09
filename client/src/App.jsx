@@ -1,16 +1,14 @@
-
-import { RouterProvider } from 'react-router-dom';
-import Web3StateProvider from './context/Web3StateProvider'
-import { routes } from './routes/routes';
-import './App.css'
+import { RouterProvider } from "react-router-dom";
+import Web3StateProvider from "./context/Web3StateProvider";
+import { routes } from "./routes/routes";
 function App() {
   return (
-    <div> 
+    <div className="bg-primaryBg">
       <Web3StateProvider>
         <RouterProvider router={routes}></RouterProvider>
-      </Web3StateProvider> 
+      </Web3StateProvider>
     </div>
-  )
+  );
 }
 
 export default App;
