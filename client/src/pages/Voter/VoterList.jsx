@@ -18,54 +18,6 @@ const VoterList = () => {
   const { contractInstance } = web3State;
   const [voterList, setVoterList] = useState([]);
 
-  const dummyVoterList = [
-    {
-      name: "vipul",
-      1: "abc",
-      2: "37n",
-      3: 0n,
-      4: 2n,
-      voterAddress: "0xbB78c165A24376048974ff34EB2472258d1ae7f1",
-      6: 0n,
-    },
-    {
-      name: "john",
-      1: "xyz",
-      2: "25n",
-      3: 1n,
-      4: 4n,
-      voterAddress: "0x1234567890abcdef1234567890abcdef12345678",
-      6: 1n,
-    },
-    {
-      name: "alice",
-      1: "def",
-      2: "30n",
-      3: 0n,
-      4: 3n,
-      voterAddress: "0xAaBbCcDdEeFf00112233445566778899AaBbCcDd",
-      6: 1n,
-    },
-    {
-      name: "bob",
-      1: "pqr",
-      2: "40n",
-      3: 1n,
-      4: 5n,
-      voterAddress: "0x9876543210abcdef9876543210abcdef98765432",
-      6: 0n,
-    },
-    {
-      name: "emma",
-      1: "lmn",
-      2: "29n",
-      3: 1n,
-      4: 6n,
-      voterAddress: "0xabcdef1234567890abcdef1234567890abcdef12",
-      6: 1n,
-    },
-  ];
-
   useEffect(() => {
     const displayVoterList = async () => {
       try {
@@ -102,7 +54,7 @@ const VoterList = () => {
             viewport={{ once: true }}
             className="flex flex-col gap-8  primaryBorder px-10 py-4 min-w-[1275px]"
           >
-            {dummyVoterList.map((voter, index) => (
+            {voterList.map((voter, index) => (
               <tr
                 key={index}
                 className={`${

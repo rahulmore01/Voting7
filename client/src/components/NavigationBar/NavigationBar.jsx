@@ -34,16 +34,16 @@ const NavigationBar = () => {
           <li>
             <Link to="/voter-registration">Voter Registration</Link>
           </li>
-          {electionCommissionStatus ? null : (
+          {electionCommissionStatus ? (
             <li>
               <Link to="/voter-list">Voter List</Link>
             </li>
-          )}
-          {electionCommissionStatus ? null : (
+          ) : null}
+          {electionCommissionStatus ? (
             <li>
               <Link to="/election-commision">Election Commission</Link>
             </li>
-          )}
+          ) : null}
           <li>
             <Link to="/token-exchange">Token Exchange</Link>
           </li>
@@ -60,16 +60,16 @@ const NavigationBar = () => {
               <li>
                 <Link to="/voter-registration">Voter Registration</Link>
               </li>
-              {electionCommissionStatus ? null : (
+              {electionCommissionStatus ? (
                 <li>
                   <Link to="/voter-list">Voter List</Link>
                 </li>
-              )}
-              {electionCommissionStatus ? null : (
+              ) : null}
+              {electionCommissionStatus ? (
                 <li>
                   <Link to="/election-commision">Election Commission</Link>
                 </li>
-              )}
+              ) : null}
               <li>
                 <Link to="/token-exchange">Token Exchange</Link>
               </li>
